@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal Search App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Sora", "sans-serif"],
+            },
+            boxShadow: {
+              glow: "0 24px 80px rgba(250, 204, 21, 0.3)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --bg-1: #0f172a;
+        --bg-2: #1e293b;
+        --accent-1: #f59e0b;
+        --accent-2: #22d3ee;
+      }
+
+      body {
+        font-family: "Sora", sans-serif;
+        background:
+          radial-gradient(circle at 10% 20%, rgba(245, 158, 11, 0.28), transparent 35%),
+          radial-gradient(circle at 88% 12%, rgba(34, 211, 238, 0.24), transparent 30%),
+          linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      }
+
+      .hero-float {
+        animation: float 8s ease-in-out infinite;
+      }
+
+      .hero-float-delay {
+        animation: float 10s ease-in-out infinite;
+        animation-delay: 1s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-14px);
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-100">
+    <main class="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-10 sm:px-6 lg:px-8">
+      <div class="hero-float pointer-events-none absolute -left-8 top-16 h-32 w-32 rounded-full bg-amber-300/20 blur-2xl"></div>
+      <div class="hero-float-delay pointer-events-none absolute -right-8 top-32 h-40 w-40 rounded-full bg-cyan-300/20 blur-2xl"></div>
+
+      <section class="relative mx-auto w-full max-w-4xl rounded-3xl border border-white/20 bg-white/10 p-6 text-center shadow-glow backdrop-blur-xl sm:p-10">
+        <p class="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-200">
+          Discover New Recipes
+        </p>
+        <h1 class="mt-5 font-display text-3xl font-extrabold tracking-tight sm:text-5xl">🍽 Meal Search App</h1>
+        <p class="mx-auto mt-3 max-w-2xl text-sm text-slate-200/90 sm:text-base">
+          Search meals and instantly view key details.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:rounded-2xl sm:border sm:border-white/20 sm:bg-slate-950/30 sm:p-2">
+          <input
+            id="mealInput"
+            type="text"
+            placeholder="Search meal (e.g., chicken, pasta, curry)"
+            class="w-full rounded-xl border border-transparent bg-white/90 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-amber-300 focus:ring-2 focus:ring-amber-200"
+          />
+          <button
+            id="searchBtn"
+            type="button"
+            class="rounded-xl bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 px-6 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-amber-500/30 transition duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-amber-400/40 active:scale-[0.98]"
+          >
+            Search
+          </button>
+        </div>
+
+        <p id="loading" class="mt-6 hidden text-sm font-semibold text-cyan-200">Loading...</p>
+        <p id="message" class="mt-6 text-sm font-semibold text-rose-300"></p>
+      </section>
+
+      <section id="results" class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"></section>
+    </main>
+
+    <div
+      id="recipeModal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="recipeTitle"
+    >
+      <div class="max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-3xl border border-white/20 bg-slate-900 text-slate-100 shadow-2xl">
+        <div class="flex items-start justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
+          <h2 id="recipeTitle" class="text-xl font-bold"></h2>
+          <button
+            id="closeModalBtn"
+            type="button"
+            class="rounded-lg border border-white/20 px-3 py-1 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
+          >
+            Close
+          </button>
+        </div>
+        <div class="max-h-[72vh] overflow-y-auto px-5 py-4 sm:px-6">
+          <img id="recipeImage" src="" alt="" class="h-56 w-full rounded-2xl object-cover sm:h-72" />
+          <div class="mt-4 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide">
+            <span id="recipeCategory" class="rounded-full bg-amber-300/20 px-3 py-1 text-amber-200"></span>
+            <span id="recipeArea" class="rounded-full bg-cyan-300/20 px-3 py-1 text-cyan-200"></span>
+          </div>
+          <p id="recipeInstructions" class="mt-4 whitespace-pre-line text-sm leading-relaxed text-slate-200"></p>
+          <a
+            id="recipeVideo"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-5 inline-flex hidden rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+          >
+            Watch Recipe Video
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
