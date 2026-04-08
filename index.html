@@ -27,18 +27,55 @@
     </script>
     <style>
       :root {
-        --bg-1: #0f172a;
-        --bg-2: #1e293b;
-        --accent-1: #f59e0b;
-        --accent-2: #22d3ee;
+        --page-bg-start: #f7efe4;
+        --page-bg-mid: #eef7ff;
+        --page-bg-end: #d8f3ee;
+        --panel-bg: rgba(255, 255, 255, 0.72);
+        --panel-border: rgba(15, 23, 42, 0.08);
+        --text-main: #0f172a;
+        --text-muted: #475569;
+        --control-bg: rgba(255, 255, 255, 0.88);
+        --control-border: rgba(15, 23, 42, 0.14);
+        --card-bg: rgba(255, 255, 255, 0.82);
+        --card-border: rgba(15, 23, 42, 0.08);
+        --shadow-color: rgba(15, 23, 42, 0.14);
+        --chip-bg: rgba(15, 23, 42, 0.06);
+        --chip-text: #0f172a;
+        --button-bg: linear-gradient(135deg, #f59e0b, #fb923c);
+        --button-text: #111827;
+        --focus-ring: rgba(245, 158, 11, 0.32);
       }
 
-      body {
+      body.app-body {
         font-family: "Sora", sans-serif;
         background:
-          radial-gradient(circle at 10% 20%, rgba(245, 158, 11, 0.28), transparent 35%),
-          radial-gradient(circle at 88% 12%, rgba(34, 211, 238, 0.24), transparent 30%),
-          linear-gradient(135deg, var(--bg-1), var(--bg-2));
+          radial-gradient(circle at 10% 20%, rgba(245, 158, 11, 0.25), transparent 35%),
+          radial-gradient(circle at 88% 12%, rgba(34, 211, 238, 0.2), transparent 30%),
+          linear-gradient(135deg, var(--page-bg-start), var(--page-bg-mid), var(--page-bg-end));
+        color: var(--text-main);
+        transition:
+          background 220ms ease,
+          color 220ms ease;
+      }
+
+      body.app-body.is-dark {
+        --page-bg-start: #020617;
+        --page-bg-mid: #0f172a;
+        --page-bg-end: #111827;
+        --panel-bg: rgba(15, 23, 42, 0.74);
+        --panel-border: rgba(148, 163, 184, 0.16);
+        --text-main: #f8fafc;
+        --text-muted: #cbd5e1;
+        --control-bg: rgba(15, 23, 42, 0.88);
+        --control-border: rgba(148, 163, 184, 0.24);
+        --card-bg: rgba(15, 23, 42, 0.8);
+        --card-border: rgba(148, 163, 184, 0.14);
+        --shadow-color: rgba(2, 6, 23, 0.45);
+        --chip-bg: rgba(148, 163, 184, 0.14);
+        --chip-text: #e2e8f0;
+        --button-bg: linear-gradient(135deg, #f59e0b, #f97316);
+        --button-text: #111827;
+        --focus-ring: rgba(34, 211, 238, 0.3);
       }
 
       .hero-float {
@@ -59,43 +96,150 @@
           transform: translateY(-14px);
         }
       }
+
+      .app-panel {
+        background: var(--panel-bg);
+        border-color: var(--panel-border);
+        color: var(--text-main);
+        box-shadow: 0 24px 80px var(--shadow-color);
+      }
+
+      .app-eyebrow {
+        color: #b45309;
+      }
+
+      body.app-body.is-dark .app-eyebrow {
+        color: #fde68a;
+      }
+
+      .app-title {
+        color: var(--text-main);
+      }
+
+      .app-copy,
+      .app-control-label,
+      .app-status {
+        color: var(--text-muted);
+      }
+
+      .app-input,
+      .app-select {
+        background: var(--control-bg);
+        border: 1px solid var(--control-border);
+        color: var(--text-main);
+      }
+
+      .app-input::placeholder {
+        color: var(--text-muted);
+      }
+
+      .app-input:focus,
+      .app-select:focus {
+        border-color: transparent;
+        outline: none;
+        box-shadow: 0 0 0 3px var(--focus-ring);
+      }
+
+      .app-button {
+        background: var(--button-bg);
+        color: var(--button-text);
+      }
+
+      .app-button-secondary {
+        background: var(--chip-bg);
+        border: 1px solid var(--control-border);
+        color: var(--text-main);
+      }
+
+      .app-theme-toggle.is-active {
+        box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.3), 0 18px 45px rgba(34, 211, 238, 0.18);
+      }
+
+      .app-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        color: var(--text-main);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .app-card-title {
+        color: var(--text-main);
+      }
+
+      .app-card-copy {
+        color: var(--text-muted);
+      }
+
+      .app-card-action {
+        background: rgba(245, 158, 11, 0.92);
+        color: #111827;
+      }
+
+      body.app-body.is-dark .app-card-action {
+        background: rgba(253, 224, 71, 0.92);
+      }
+
+      .app-chip {
+        background: var(--chip-bg);
+        color: var(--chip-text);
+      }
     </style>
   </head>
-  <body class="min-h-screen text-slate-100">
+  <body class="app-body min-h-screen">
     <main class="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-10 sm:px-6 lg:px-8">
       <div class="hero-float pointer-events-none absolute -left-8 top-16 h-32 w-32 rounded-full bg-amber-300/20 blur-2xl"></div>
       <div class="hero-float-delay pointer-events-none absolute -right-8 top-32 h-40 w-40 rounded-full bg-cyan-300/20 blur-2xl"></div>
 
-      <section class="relative mx-auto w-full max-w-4xl rounded-3xl border border-white/20 bg-white/10 p-6 text-center shadow-glow backdrop-blur-xl sm:p-10">
-        <p class="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-200">
+      <section class="app-panel relative mx-auto w-full max-w-5xl rounded-3xl border p-6 text-center backdrop-blur-xl sm:p-10">
+        <p class="app-eyebrow inline-flex items-center rounded-full border border-current/15 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em]">
           Discover New Recipes
         </p>
-        <h1 class="mt-5 font-display text-3xl font-extrabold tracking-tight sm:text-5xl">🍽 Meal Search App</h1>
-        <p class="mx-auto mt-3 max-w-2xl text-sm text-slate-200/90 sm:text-base">
-          Search meals and instantly view key details.
+        <h1 class="app-title mt-5 font-display text-3xl font-extrabold tracking-tight sm:text-5xl">🍽 Meal Search App</h1>
+        <p class="app-copy mx-auto mt-3 max-w-2xl text-sm sm:text-base">
+          Search, filter, sort, and switch themes while browsing meals from a public API.
         </p>
 
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:rounded-2xl sm:border sm:border-white/20 sm:bg-slate-950/30 sm:p-2">
-          <input
-            id="mealInput"
-            type="text"
-            placeholder="Search meal (e.g., chicken, pasta, curry)"
-            class="w-full rounded-xl border border-transparent bg-white/90 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-amber-300 focus:ring-2 focus:ring-amber-200"
-          />
+        <div class="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_repeat(2,minmax(0,1fr))_auto_auto]">
+          <label class="flex flex-col gap-2 text-left">
+            <span class="app-control-label text-xs font-semibold uppercase tracking-[0.2em]">Search</span>
+            <input
+              type="text"
+              placeholder="Search meals by name, category, area, or instructions"
+              class="app-input js-search-input w-full rounded-xl px-4 py-3 text-sm outline-none transition"
+            />
+          </label>
+          <label class="flex flex-col gap-2 text-left">
+            <span class="app-control-label text-xs font-semibold uppercase tracking-[0.2em]">Category</span>
+            <select class="app-select js-category-select w-full rounded-xl px-4 py-3 text-sm outline-none transition">
+              <option value="all">All categories</option>
+            </select>
+          </label>
+          <label class="flex flex-col gap-2 text-left">
+            <span class="app-control-label text-xs font-semibold uppercase tracking-[0.2em]">Sort</span>
+            <select class="app-select js-sort-select w-full rounded-xl px-4 py-3 text-sm outline-none transition">
+              <option value="name-asc">Name A to Z</option>
+              <option value="name-desc">Name Z to A</option>
+            </select>
+          </label>
           <button
-            id="searchBtn"
             type="button"
-            class="rounded-xl bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 px-6 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-amber-500/30 transition duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-amber-400/40 active:scale-[0.98]"
+            class="app-button js-search-button rounded-xl px-5 py-3 text-sm font-bold shadow-lg transition duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
-            Search
+            Search API
+          </button>
+          <button
+            type="button"
+            class="app-button-secondary app-theme-toggle js-theme-toggle rounded-xl px-5 py-3 text-sm font-bold transition duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            Switch to dark mode
           </button>
         </div>
 
-        <p id="loading" class="mt-6 hidden text-sm font-semibold text-cyan-200">Loading...</p>
-        <p id="message" class="mt-6 text-sm font-semibold text-rose-300"></p>
+        <p class="app-status js-loading mt-6 hidden text-sm font-semibold">Loading...</p>
+        <p class="app-status js-message mt-6 text-sm font-semibold"></p>
       </section>
 
-      <section id="results" class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"></section>
+      <section class="js-results mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"></section>
     </main>
 
     <div
@@ -119,8 +263,8 @@
         <div class="max-h-[72vh] overflow-y-auto px-5 py-4 sm:px-6">
           <img id="recipeImage" src="" alt="" class="h-56 w-full rounded-2xl object-cover sm:h-72" />
           <div class="mt-4 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide">
-            <span id="recipeCategory" class="rounded-full bg-amber-300/20 px-3 py-1 text-amber-200"></span>
-            <span id="recipeArea" class="rounded-full bg-cyan-300/20 px-3 py-1 text-cyan-200"></span>
+            <span id="recipeCategory" class="app-chip rounded-full px-3 py-1"></span>
+            <span id="recipeArea" class="app-chip rounded-full px-3 py-1"></span>
           </div>
           <p id="recipeInstructions" class="mt-4 whitespace-pre-line text-sm leading-relaxed text-slate-200"></p>
           <a
@@ -136,6 +280,6 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
